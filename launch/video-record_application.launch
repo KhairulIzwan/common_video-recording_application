@@ -1,0 +1,6 @@
+<launch>
+
+	<!-- MAX7219 DISPLAY -->
+	<include file="$(find common_video-recording_application)/launch/time-record.launch"/>
+
+</launch>

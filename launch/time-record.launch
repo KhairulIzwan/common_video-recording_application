@@ -1,0 +1,10 @@
+<launch>
+
+	<!-- MAX7219 DISPLAY -->
+	<node	pkg="common_video-recording_application" 
+		name="time-record" 
+		type="time-record.py" >
+	<!-- 	output="screen"> -->
+	</node>
+
+</launch>
