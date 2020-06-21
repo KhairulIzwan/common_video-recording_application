@@ -93,15 +93,14 @@ class BarcodeVideo:
 	def record(self):
 
 		if self.image_received and self.code_received:
-			timestr = time.strftime("%Y%m%d-%H%M%S")
-			filename = timestr + "-output.avi"
+			rospy.loginfo("Recording...")
+			filename = self.qr.split(",")[0] + ".avi"
 			out = cv2.VideoWriter(filename,self.fourcc, 20.0, (self.image_width,self.image_height))
 			start_time = time.time()
 			while(int(time.time() - start_time) < self.capture_duration):
 				self.preview()
 				out.write(self.image)
-		else:
-			rospy.logerr("No images recieved")
+			self.code_received = False
 
 if __name__ == '__main__':
 
