@@ -4,7 +4,7 @@
 	<node	pkg="common_video-recording_application" 
 		name="time_record" 
 		type="time_record.py" >
-	<!-- 	output="screen"> -->
+	 	output="screen">
 	</node>
 
 </launch>
