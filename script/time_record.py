@@ -13,8 +13,9 @@ from __future__ import division
 
 import sys
 import rospy
+import rospkg
+import os
 import cv2
-import imutils
 
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
@@ -23,19 +24,26 @@ from sensor_msgs.msg import CameraInfo
 from cv_bridge import CvBridge
 from cv_bridge import CvBridgeError
 
-import numpy as np
-
-from pyzbar import pyzbar
-import datetime
 import time
 
 class BarcodeVideo:
 	def __init__(self):
 
+		self.rospack = rospkg.RosPack()
 		self.bridge = CvBridge()
 		self.scanCode = String()
 		self.image_received = False
 		self.code_received = False
+
+		# initialize the output directory path and create the output directory
+		self.p = os.path.sep.join([self.rospack.get_path('common_video-recording_application')])
+		self.outputDir = os.path.join(self.p, "video")
+
+		try:
+			os.makedirs(self.outputDir)
+		except OSError as e:
+			print(e)
+
 
 		# The duration in seconds of the video captured
 		self.capture_duration = 5
@@ -99,13 +107,14 @@ class BarcodeVideo:
 				self.mode = "customer"
 			rospy.loginfo("Recording...")
 			timestr = time.strftime("%Y%m%d-%H%M%S-")
-			filename = timestr + self.qr.split(",")[0] + "-" +self.mode + "-" + ".avi"
+			filename = self.outputDir + "/"+ timestr + self.qr.split(",")[0] + "-" +self.mode + "-" + ".avi"
 			out = cv2.VideoWriter(filename,self.fourcc, 20.0, (self.image_width,self.image_height))
 			start_time = time.time()
 			while(int(time.time() - start_time) < self.capture_duration):
 				self.preview()
 				out.write(self.image)
 			self.code_received = False
+			rospy.logwarn("Recording Done")
 
 if __name__ == '__main__':
 
