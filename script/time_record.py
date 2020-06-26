@@ -51,11 +51,11 @@ class BarcodeVideo:
 		self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
 
 		# Subscribe Image msg
-		img_topic = "/cv_camera/image_raw"
+		img_topic = "/cv_camera_addon/image_raw"
 		self.image_sub = rospy.Subscriber(img_topic, Image, self.cbImage)
 
 		# Subscribe CameraInfo msg
-		imgInfo_topic = "/cv_camera/camera_info"
+		imgInfo_topic = "/cv_camera_addon/camera_info"
 		self.imageInfo_sub = rospy.Subscriber(imgInfo_topic, CameraInfo, self.cbImageInfo)
 
 		# Subscribe String msg
@@ -97,6 +97,9 @@ class BarcodeVideo:
 		timestr = time.strftime("%Y%m%d-%H%M%S")
 		cv2.putText(self.image, timestr, (10, 20), 1, 1, 
 			(255, 255, 255), 1, cv2.LINE_AA, False)
+
+		cv2.imshow("CCTV", self.image)
+		cv2.waitKey(1)
 
 	def record(self):
 
