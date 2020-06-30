@@ -36,7 +36,7 @@ class BarcodeVideo:
 		self.code_received = False
 
 		# initialize the output directory path and create the output directory
-		self.p = os.path.sep.join([self.rospack.get_path('common_video-recording_application')])
+		self.p = os.path.sep.join([self.rospack.get_path('self_collect_machine')])
 		self.outputDir = os.path.join(self.p, "video")
 
 		try:
